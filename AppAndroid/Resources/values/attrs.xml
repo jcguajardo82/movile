@@ -1,0 +1,5 @@
+﻿<resources>
+<declare-styleable name="AppTheme">
+  <attr name="colorVerde" format="color|reference" />
+</declare-styleable>
+  </resources>

@@ -1,0 +1,176 @@
+﻿using Android.App;
+using Android.Content;
+using Android.OS;
+using Android.Runtime;
+using Android.Text;
+using Android.Views;
+using Android.Widget;
+using AndroidX.AppCompat.App;
+using AppAndroid.Api;
+using AppAndroid.Helpers;
+using AppAndroid.Models;
+using Google.Android.Material.TextField;
+using System;
+using Xamarin.Essentials;
+using static Android.Views.View;
+
+namespace AppAndroid
+{
+    [Activity(Label = "@string/app_name", Theme = "@style/AppTheme.NoActionBar", MainLauncher = true)]
+    public class MainActivity : AppCompatActivity
+    {
+        private readonly GestorApi api = new GestorApi();
+        private TextInputLayout MensajeUsuario;
+        private TextInputEditText Usuario;
+        private TextInputLayout MensajePassword;
+        private TextInputEditText Password;
+        private Button Login;
+        private ProgressBar Cargando;
+        private bool running = false;
+        private bool internet = true;
+        protected override void OnCreate(Bundle savedInstanceState)
+        {
+            base.OnCreate(savedInstanceState);
+            Xamarin.Essentials.Platform.Init(this, savedInstanceState);
+            SetContentView(Resource.Layout.activity_main);
+
+            MensajeUsuario = FindViewById<TextInputLayout>(Resource.Id.mensajeUsuario);
+            Usuario = FindViewById<TextInputEditText>(Resource.Id.usuario);
+            MensajePassword = FindViewById<TextInputLayout>(Resource.Id.mensajePassword);
+            Password = FindViewById<TextInputEditText>(Resource.Id.password);
+            Login = FindViewById<Button>(Resource.Id.btnLogin);
+            Cargando = FindViewById<ProgressBar>(Resource.Id.progressBar);
+
+            Usuario.FocusChange += FocusChanged;
+            Usuario.TextChanged += TextChanged;
+
+            Password.FocusChange += FocusChanged;
+            Password.TextChanged += TextChanged;
+
+            Login.Click += LoginClick;
+            NetworkState();
+
+            var current = Connectivity.NetworkAccess;
+
+            if (current != NetworkAccess.Internet)
+            {
+                internet = false;
+            }
+        }
+
+        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
+        {
+            Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+
+            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+        private void TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (sender == Usuario)
+            {
+                ValidarUsuario();
+            }
+            if (sender == Password)
+            {
+                ValidarPassword();
+            }
+        }
+        private void FocusChanged(object sender, FocusChangeEventArgs e)
+        {
+            if (sender == Usuario)
+            {
+                if(!Usuario.HasFocus)
+                    ValidarUsuario();
+            }
+            if (sender == Password)
+            {
+                if (!Password.HasFocus)
+                    ValidarPassword();
+            }
+        }
+
+        private async void LoginClick(object sender, EventArgs e)
+        {
+            if (internet == false)
+            {
+                SnackbarMaker.Make("No tiene acceso a Internet", Login);
+                return;
+            }
+
+            if (running == true)
+                return;
+
+            running = true;
+
+            Cargando.Visibility = ViewStates.Visible;
+            ValidarPassword();
+            ValidarUsuario();
+            if (MensajePassword.ErrorEnabled == true || MensajeUsuario.ErrorEnabled == true)
+            {
+                SnackbarMaker.Make("Ingrese la información necesaria", Login);
+                Cargando.Visibility = ViewStates.Invisible;
+                running = false;
+                return;
+            }
+            Habilitar(false);
+
+            var exito = await api.Login(new LoginModel
+            {
+                Pass = Password.Text,
+                User = Usuario.Text
+            });
+            if (exito == "true")
+            {
+                Intent intent = new Intent(this, typeof(OrdenesActivity));
+                StartActivity(intent);
+            }
+            else
+            {
+                Habilitar(true);
+                Cargando.Visibility = ViewStates.Invisible;
+                SnackbarMaker.Make("Usuario y/o contraseña incorrecto", Login);
+            }
+            running = false;
+        }
+
+        private void NetworkState()
+        {
+            Connectivity.ConnectivityChanged += GetNetworkChange;
+        }
+        private void GetNetworkChange(object sender, ConnectivityChangedEventArgs e)
+        {
+            var access = e.NetworkAccess;
+            if (access == NetworkAccess.Internet)
+            {
+                internet = true;
+            }
+            else
+            {
+                internet = false;
+                SnackbarMaker.Make("No tiene acceso a Internet", Login);
+            }
+        }
+        private void ValidarUsuario()
+        {
+            MensajeUsuario.Error = ValidarControl.ValidarInput(Usuario.Text, nameof(Usuario));
+            if (MensajeUsuario.Error == null)
+                MensajeUsuario.ErrorEnabled = false;
+            else
+                MensajeUsuario.ErrorEnabled = true;
+        }
+        private void ValidarPassword()
+        {
+            MensajePassword.Error = ValidarControl.ValidarInput(Password.Text, nameof(Password));
+            if (MensajePassword.Error == null)
+                MensajePassword.ErrorEnabled = false;
+            else
+                MensajePassword.ErrorEnabled = true;
+        }
+        private void Habilitar(bool estado)
+        {
+            Password.Enabled = estado;
+            Usuario.Enabled = estado;
+            Login.Enabled = estado;
+        }
+    }
+}
