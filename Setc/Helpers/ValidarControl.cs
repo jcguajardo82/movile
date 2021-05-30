@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AppAndroid.Helpers
+namespace Setc.Helpers
 {
     public static class ValidarControl
     {

@@ -4,7 +4,7 @@ using Android.OS;
 using Android.Widget;
 using AndroidX.AppCompat.App;
 
-namespace AppAndroid
+namespace Setc
 {
     [Activity(Label = "Finalizar Orden")]
     public class FinalizarActivity : AppCompatActivity

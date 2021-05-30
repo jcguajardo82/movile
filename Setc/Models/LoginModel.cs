@@ -4,18 +4,17 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
-using AppAndroid.Models;
-using Refit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace AppAndroid.Api
+namespace Setc.Models
 {
-    public interface IGestorApi
+    public class LoginModel
     {
-        Task<string> Login(LoginModel userLogin);
+        public string User { get; set; }
+        public string Pass { get; set; }
+
     }
 }

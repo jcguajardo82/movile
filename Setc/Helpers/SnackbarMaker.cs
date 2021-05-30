@@ -1,7 +1,7 @@
 ﻿using Android.Views;
 using Google.Android.Material.Snackbar;
 
-namespace AppAndroid.Helpers
+namespace Setc.Helpers
 {
     public static class SnackbarMaker
     {

@@ -6,17 +6,17 @@ using Android.Text;
 using Android.Views;
 using Android.Widget;
 using AndroidX.AppCompat.App;
-using AppAndroid.Api;
-using AppAndroid.Helpers;
-using AppAndroid.Models;
+using Setc.Api;
+using Setc.Helpers;
+using Setc.Models;
 using Google.Android.Material.TextField;
 using System;
 using Xamarin.Essentials;
 using static Android.Views.View;
 
-namespace AppAndroid
+namespace Setc
 {
-    [Activity(Label = "@string/app_name", Theme = "@style/AppTheme.NoActionBar", MainLauncher = true)]
+    [Activity(Label = "@string/app_name", Theme = "@style/AppTheme.NoActionBar", MainLauncher = true, NoHistory = true)]
     public class MainActivity : AppCompatActivity
     {
         private readonly GestorApi api = new GestorApi();
@@ -123,6 +123,9 @@ namespace AppAndroid
             {
                 Intent intent = new Intent(this, typeof(OrdenesActivity));
                 StartActivity(intent);
+
+                SetResult(Result.Ok, intent);
+                Finish();
             }
             else
             {

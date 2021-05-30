@@ -1,6 +1,6 @@
-﻿namespace AppAndroid.Models
+﻿namespace Setc.Models
 {
-    public class OrdenModel
+    public class Orden
     {
         public int Numero { get; set; }
         public string Descripcion { get; set; }

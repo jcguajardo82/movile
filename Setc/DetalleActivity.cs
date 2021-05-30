@@ -4,13 +4,13 @@ using Android.Graphics;
 using Android.OS;
 using Android.Widget;
 using AndroidX.AppCompat.App;
-using AppAndroid.Adapters;
-using AppAndroid.Models;
+using Setc.Adapters;
+using Setc.Models;
 using System.Collections.Generic;
 using Xamarin.Essentials;
 using AlertDialog = AndroidX.AppCompat.App.AlertDialog;
 
-namespace AppAndroid
+namespace Setc
 {
     [Activity(Label = "Detalle de Ordenes")]
     public class DetalleActivity : AppCompatActivity

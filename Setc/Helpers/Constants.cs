@@ -9,12 +9,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace AppAndroid.Models
+namespace Setc.Helpers
 {
-    public class LoginModel
+   public static class Constants
     {
-        public string User { get; set; }
-        public string Pass { get; set; }
-
+        public const string GestorUrl = "http://gestorinvsc.supercity.com.mx/";
     }
 }

@@ -3,11 +3,11 @@ using Android.Content;
 using Android.OS;
 using Android.Widget;
 using AndroidX.AppCompat.App;
-using AppAndroid.Adapters;
-using AppAndroid.Models;
+using Setc.Adapters;
+using Setc.Models;
 using System.Collections.Generic;
 
-namespace AppAndroid
+namespace Setc
 {
     [Activity(Label = "Mis Ordenes")]
     public class OrdenesActivity : AppCompatActivity
@@ -26,7 +26,7 @@ namespace AppAndroid
             _ordenesListView.ItemClick += (sender, e) =>
             {
                 Intent intent = new Intent(this, typeof(DetalleActivity));
-                StartActivity(intent);
+                StartActivity(intent);               
             };
 
         }

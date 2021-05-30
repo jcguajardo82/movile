@@ -1,10 +1,10 @@
 ﻿using Android.App;
 using Android.Views;
 using Android.Widget;
-using AppAndroid.Models;
+using Setc.Models;
 using System.Collections.Generic;
 
-namespace AppAndroid.Adapters
+namespace Setc.Adapters
 {
     class ProductosListAdapter : BaseAdapter<DetalleModel>
     {

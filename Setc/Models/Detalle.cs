@@ -1,4 +1,4 @@
-﻿namespace AppAndroid.Models
+﻿namespace Setc.Models
 {
     public class Detalle
     {
