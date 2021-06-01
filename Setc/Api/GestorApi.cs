@@ -15,7 +15,7 @@ namespace Setc.Api
         }
         public async Task<string> Login(LoginModel userLogin)
         {
-            string exito = String.Empty;
+            string exito;
             try
             {
                 var encriptado = await gestorAPI.PasswordEncriptadoApi(userLogin);

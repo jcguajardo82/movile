@@ -16,7 +16,7 @@ using static Android.Views.View;
 
 namespace Setc
 {
-    [Activity(Label = "@string/app_name", Theme = "@style/AppTheme.NoActionBar", MainLauncher = true, NoHistory = true)]
+    [Activity(Label = "@string/app_name", Theme = "@style/AppTheme.NoActionBar", NoHistory = true)]
     public class MainActivity : AppCompatActivity
     {
         private readonly GestorApi api = new GestorApi();
@@ -31,7 +31,7 @@ namespace Setc
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            Xamarin.Essentials.Platform.Init(this, savedInstanceState);
+            Platform.Init(this, savedInstanceState);
             SetContentView(Resource.Layout.activity_main);
 
             MensajeUsuario = FindViewById<TextInputLayout>(Resource.Id.mensajeUsuario);
@@ -79,7 +79,7 @@ namespace Setc
         {
             if (sender == Usuario)
             {
-                if(!Usuario.HasFocus)
+                if (!Usuario.HasFocus)
                     ValidarUsuario();
             }
             if (sender == Password)
@@ -121,6 +121,7 @@ namespace Setc
             });
             if (exito == "true")
             {
+                Preferences.Set(Usuario.Text, "usuario");
                 Intent intent = new Intent(this, typeof(OrdenesActivity));
                 StartActivity(intent);
 
@@ -175,5 +176,6 @@ namespace Setc
             Usuario.Enabled = estado;
             Login.Enabled = estado;
         }
+        public override void OnBackPressed() { }
     }
 }
