@@ -1,11 +1,12 @@
 <resources>
-    <string name="app_name">Entregas Setc</string>
-    <string name="action_settings">Settings</string>
+  <string name="app_name">Entregas Setc</string>
+  <string name="action_settings">Settings</string>
   <string name="loginBtnIngresar">Ingresar</string>
   <string name="loginBtnFinalizar">Finalizar</string>
-<string name="loginEditUsuario">Usuario</string>
-<string name="loginEditPassword">Contraseña</string>
+  <string name="loginEditUsuario">Usuario</string>
+  <string name="loginEditPassword">Contraseña</string>
   <string name="finalizarRecibe">Quién Recibe</string>
   <string name="enProceso">En Proceso</string>
   <string name="descripcion">Soriana</string>
+  <string name="BtnPermisos">Comprobar Permisos</string>
 </resources>

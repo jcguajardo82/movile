@@ -1,16 +1,18 @@
 ﻿using Android.App;
 using Android.Content;
 using Android.OS;
+using Android.Runtime;
 using Android.Widget;
 using AndroidX.AppCompat.App;
 using Setc.Adapters;
 using Setc.Models;
 using System.Collections.Generic;
+using static Android.Widget.AbsListView;
 
 namespace Setc
 {
     [Activity(Label = "Mis Ordenes")]
-    public class OrdenesActivity : AppCompatActivity
+    public class OrdenesActivity : AppCompatActivity, IOnScrollListener
     {
         private ListView _ordenesListView;
         private List<OrdenModel> _ordenes;
@@ -55,6 +57,16 @@ namespace Setc
                 }
             };
             return result;
+        }
+
+        public void OnScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void OnScrollStateChanged(AbsListView view, [GeneratedEnum] ScrollState scrollState)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

@@ -72,13 +72,15 @@
   <ItemGroup>
     <Compile Include="Adapters\ProductosListAdapter.cs" />
     <Compile Include="Adapters\OrdenesListAdapter.cs" />
-    <Compile Include="Api\GestorApi.cs" />
-    <Compile Include="Api\IGestorApi.cs" />
+    <Compile Include="Api\Apis.cs" />
     <Compile Include="Api\IApis.cs" />
+    <Compile Include="Api\IGestorApi.cs" />
+    <Compile Include="Api\ISetcApi.cs" />
     <Compile Include="Helpers\ValidarControl.cs" />
     <Compile Include="FinalizarActivity.cs" />
     <Compile Include="Helpers\Constants.cs" />
     <Compile Include="Helpers\SnackbarMaker.cs" />
+    <Compile Include="PermisosActivity.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Models\DetalleModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
@@ -186,6 +188,12 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\splash_logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\content_permisos.xml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

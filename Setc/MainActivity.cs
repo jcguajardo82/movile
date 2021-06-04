@@ -19,7 +19,7 @@ namespace Setc
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme.NoActionBar", NoHistory = true)]
     public class MainActivity : AppCompatActivity
     {
-        private readonly GestorApi api = new GestorApi();
+       // private readonly Apis api = new Apis();
         private TextInputLayout MensajeUsuario;
         private TextInputEditText Usuario;
         private TextInputLayout MensajePassword;
@@ -114,26 +114,26 @@ namespace Setc
             }
             Habilitar(false);
 
-            var exito = await api.Login(new LoginModel
-            {
-                Pass = Password.Text,
-                User = Usuario.Text
-            });
-            if (exito == "true")
-            {
-                Preferences.Set(Usuario.Text, "usuario");
-                Intent intent = new Intent(this, typeof(OrdenesActivity));
-                StartActivity(intent);
+            //var exito = await api.Login(new LoginModel
+            //{
+            //    Pass = Password.Text,
+            //    User = Usuario.Text
+            //});
+            //if (exito == "true")
+            //{
+            //    Preferences.Set(Usuario.Text, "usuario");
+            //    Intent intent = new Intent(this, typeof(OrdenesActivity));
+            //    StartActivity(intent);
 
-                SetResult(Result.Ok, intent);
-                Finish();
-            }
-            else
-            {
-                Habilitar(true);
-                Cargando.Visibility = ViewStates.Invisible;
-                SnackbarMaker.Make("Usuario y/o contraseña incorrecto", Login);
-            }
+            //    SetResult(Result.Ok, intent);
+            //    Finish();
+            //}
+            //else
+            //{
+            //    Habilitar(true);
+            //    Cargando.Visibility = ViewStates.Invisible;
+            //    SnackbarMaker.Make("Usuario y/o contraseña incorrecto", Login);
+            //}
             running = false;
         }
 
