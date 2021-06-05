@@ -5,8 +5,11 @@ using Android.Runtime;
 using Android.Widget;
 using AndroidX.AppCompat.App;
 using Setc.Adapters;
+using Setc.Api;
 using Setc.Models;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using Xamarin.Essentials;
 using static Android.Widget.AbsListView;
 
 namespace Setc
@@ -14,6 +17,7 @@ namespace Setc
     [Activity(Label = "Mis Ordenes")]
     public class OrdenesActivity : AppCompatActivity, IOnScrollListener
     {
+        private readonly Apis api = new Apis();
         private ListView _ordenesListView;
         private List<OrdenModel> _ordenes;
         protected override void OnCreate(Bundle savedInstanceState)
@@ -23,8 +27,7 @@ namespace Setc
             SetContentView(Resource.Layout.content_ordenes);
 
             _ordenesListView = FindViewById<ListView>(Resource.Id.OrdenesListViewControl);
-            _ordenes = GetOrdenes();
-            _ordenesListView.Adapter = new OrdenesListAdapter(this, _ordenes);
+            _ = GetOrdenes();
             _ordenesListView.ItemClick += (sender, e) =>
             {
                 Intent intent = new Intent(this, typeof(DetalleActivity));
@@ -33,30 +36,14 @@ namespace Setc
 
         }
         public override void OnBackPressed() { }
-        private List<OrdenModel> GetOrdenes()
+        private async Task<bool> GetOrdenes()
         {
-            var result = new List<OrdenModel>()
+            _ordenes = await api.GetOrders("asd",1);
+            MainThread.BeginInvokeOnMainThread(() =>
             {
-                new OrdenModel()
-                {
-                    Descripcion = "Descripción Orden",
-                    Numero = 1,
-                    Estado = "En Proceso"
-                },
-                new OrdenModel()
-                {
-                    Descripcion = "Descripción Orden",
-                    Numero = 2,
-                    Estado= "En Espera"
-                },
-                new OrdenModel()
-                {
-                    Descripcion = "Descripción Orden",
-                    Numero = 3,
-                    Estado = "Entregado"
-                }
-            };
-            return result;
+            _ordenesListView.Adapter = new OrdenesListAdapter(this, _ordenes);
+            });
+            return true;
         }
 
         public void OnScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount)

@@ -16,10 +16,10 @@ namespace Setc.Api
 {
     public interface IApis
     {
-        Task<string> Login(LoginModel userLogin);
-        Task<string> ChangeEstatusOrder(int orden, int estatus);
-        Task<string> GetCuestionario(string usuario);
-        Task<string> GetOrders(string usuario, int pagina);
-        Task<string> SendCuestionario();
+        //Task<string> Login(LoginModel userLogin);
+        //Task<string> ChangeEstatusOrder(int orden, int estatus);
+        //Task<string> GetCuestionario(string usuario);
+        Task<List<OrdenModel>> GetOrders(string usuario, int pagina);
+        //Task<string> SendCuestionario();
     }
 }

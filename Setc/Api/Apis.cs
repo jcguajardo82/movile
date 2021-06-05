@@ -1,6 +1,7 @@
 ﻿using Refit;
 using Setc.Helpers;
 using Setc.Models;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -16,19 +17,19 @@ namespace Setc.Api
             setcApi = RestService.For<ISetcApi>(Constants.SectUrl);
         }
 
-        public async Task<string> ChangeEstatusOrder(int orden, int estatus)
-        {
-            var response = await setcApi.ChangeEstatusOrder(orden, estatus);
-            return response;
-        }
+        //public async Task<string> ChangeEstatusOrder(int orden, int estatus)
+        //{
+        //    var response = await setcApi.ChangeEstatusOrder(orden, estatus);
+        //    return response;
+        //}
 
-        public async Task<string> GetCuestionario(string usuario)
-        {
-            var response = await setcApi.GetCuestionario(usuario);
-            return response;
-        }
+        //public async Task<string> GetCuestionario(string usuario)
+        //{
+        //    var response = await setcApi.GetCuestionario(usuario);
+        //    return response;
+        //}
 
-        public async Task<string> GetOrders(string usuario, int pagina)
+        public async Task<List<OrdenModel>> GetOrders(string usuario, int pagina)
         {
             var response = await setcApi.GetOrders(usuario, pagina);
             return response;
@@ -51,10 +52,10 @@ namespace Setc.Api
             return exito;
         }
 
-        public async Task<string> SendCuestionario()
-        {
-            var response = await setcApi.SendCuestionario();
-            return response;
-        }
+        //public async Task<string> SendCuestionario()
+        //{
+        //    var response = await setcApi.SendCuestionario();
+        //    return response;
+        //}
     }
 }

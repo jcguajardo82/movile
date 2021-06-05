@@ -33,10 +33,10 @@ namespace Setc.Adapters
             }
 
             convertView.FindViewById<TextView>(Resource.Id.numeroTextView).Text =
-                item.Numero.ToString();
+                item.barcode.ToString();
 
             convertView.FindViewById<TextView>(Resource.Id.descripcionTextView).Text =
-                item.Descripcion;
+                item.productName;
 
 
 

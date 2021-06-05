@@ -70,24 +70,7 @@ namespace Setc
 
         private List<DetalleModel> GetOrdenes()
         {
-            var result = new List<DetalleModel>()
-            {
-                new DetalleModel()
-                {
-                    Descripcion = "Producto",
-                    Numero = 1
-                },
-                new DetalleModel()
-                {
-                    Descripcion = "Producto",
-                    Numero = 2
-                },
-                new DetalleModel()
-                {
-                    Descripcion = "Producto",
-                    Numero = 3
-                }
-            };
+            var result = new List<DetalleModel>();
             return result;
         }
     }

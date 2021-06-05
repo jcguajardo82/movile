@@ -39,16 +39,16 @@ namespace Setc.Adapters
                     .Inflate(Resource.Layout.ordenitem_layout, null);
             }
 
-            convertView.FindViewById<TextView>(Resource.Id.numeroTextView).Text =  item.Numero.ToString();
-            convertView.FindViewById<TextView>(Resource.Id.descripcionTextView).Text = item.Descripcion;
-            convertView.FindViewById<TextView>(Resource.Id.estadoTextView).Text = item.Estado;
+            convertView.FindViewById<TextView>(Resource.Id.numeroTextView).Text =  item.orderNo.ToString();
+            convertView.FindViewById<TextView>(Resource.Id.descripcionTextView).Text = "PRUEBA";
+            convertView.FindViewById<TextView>(Resource.Id.estadoTextView).Text = item.statusUe.ToString();
             Color color = Color.Black;
-            switch (item.Estado)
+            switch (item.statusUe)
             {
-                case "En Proceso":
+                case 0:
                     color = Color.DarkGreen;
                     break;
-                case "En Espera":
+                case 1:
                     color = Color.Orange;
                     break;
             }

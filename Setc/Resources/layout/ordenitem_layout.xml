@@ -18,7 +18,7 @@
         <TextView
             android:paddingTop="5dp"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:layout_width="15.5dp"
+            android:layout_width="150dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:id="@+id/numeroTextView" />

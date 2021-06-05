@@ -5,6 +5,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Refit;
+using Setc.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,16 +16,16 @@ namespace Setc.Api
 {
     public interface ISetcApi
     {
-        [Post("/api/ChangeEstatusOrder?NoOrder={orden}&Status={estatus}")]
-        Task<string> ChangeEstatusOrder(int orden, int estatus);
+        //[Post("/api/ChangeEstatusOrder?NoOrder={orden}&Status={estatus}")]
+        //Task<string> ChangeEstatusOrder(int orden, int estatus);
 
-        [Post("/api/GetCuestionario?Id_User={usuario}")]
-        Task<string> GetCuestionario(string usuario);
+        //[Post("/api/GetCuestionario?Id_User={usuario}")]
+        //Task<string> GetCuestionario(string usuario);
 
         [Post("/api/GetOrders?Id_User={usuario}&Id_Page={pagina}")]
-        Task<string> GetOrders(string usuario, int pagina);
+        Task<List<OrdenModel>> GetOrders(string usuario, int pagina);
 
-        [Post("/api/SendCuestionario")]
-        Task<string> SendCuestionario();
+        //[Post("/api/SendCuestionario")]
+        //Task<string> SendCuestionario();
     }
 }
