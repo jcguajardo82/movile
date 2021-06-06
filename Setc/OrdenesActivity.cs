@@ -1,59 +1,110 @@
 ﻿using Android.App;
 using Android.Content;
 using Android.OS;
-using Android.Runtime;
 using Android.Widget;
 using AndroidX.AppCompat.App;
+using AndroidX.RecyclerView.Widget;
+using AndroidX.SwipeRefreshLayout.Widget;
 using Setc.Adapters;
 using Setc.Api;
+using Setc.Controls;
 using Setc.Models;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using Xamarin.Essentials;
-using static Android.Widget.AbsListView;
 
 namespace Setc
 {
     [Activity(Label = "Mis Ordenes")]
-    public class OrdenesActivity : AppCompatActivity, IOnScrollListener
+    public class OrdenesActivity : AppCompatActivity
     {
+        Handler handler;
         private readonly Apis api = new Apis();
-        private ListView _ordenesListView;
-        private List<OrdenModel> _ordenes;
+        List<OrdenModel> data = new List<OrdenModel>();
+        SwipeRefreshLayout refresh;
+        private RecyclerView recyclerView;
+        private OrdenesListAdapter adapter;
+        private bool IsLoadingMore = false;
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             SetContentView(Resource.Layout.content_ordenes);
+            handler = new Handler();
+            adapter = new OrdenesListAdapter(data, this);
+            recyclerView = FindViewById<RecyclerView>(Resource.Id.recyclerView);
+            recyclerView.SetLayoutManager(new LinearLayoutManager(this));
+            recyclerView.SetAdapter(adapter);
+            recyclerView.AddItemDecoration(new DividerItemDecoration(this, (int)Orientation.Vertical));
 
-            _ordenesListView = FindViewById<ListView>(Resource.Id.OrdenesListViewControl);
-            _ = GetOrdenes();
-            _ordenesListView.ItemClick += (sender, e) =>
+            refresh = FindViewById<SwipeRefreshLayout>(Resource.Id.swipeRefreshLayout);
+            refresh.Refresh += delegate
             {
-                Intent intent = new Intent(this, typeof(DetalleActivity));
-                StartActivity(intent);               
+                SwipeRefreshLayout_Refresh();
             };
 
+            adapter.OnItemClick += (view, position) =>
+            {                
+                Intent intent = new Intent(this, typeof(DetalleActivity));
+                StartActivity(intent);
+            };
+            LinearLayoutManager linearLayoutManager = (LinearLayoutManager)recyclerView.GetLayoutManager();
+            RecyclerView.OnScrollListener scroll = new RecyclerViewOnScrollListtener(refresh, handler, linearLayoutManager, adapter, AddData, IsLoadingMore);
+
+            recyclerView.AddOnScrollListener(scroll);
+
+            GetOrdenes();
         }
-        public override void OnBackPressed() { }
-        private async Task<bool> GetOrdenes()
+
+        private void SwipeRefreshLayout_Refresh()
         {
-            _ordenes = await api.GetOrders("asd",1);
-            MainThread.BeginInvokeOnMainThread(() =>
+            handler.PostDelayed(() =>
             {
-            _ordenesListView.Adapter = new OrdenesListAdapter(this, _ordenes);
-            });
-            return true;
+                InsertData();
+            }, 2000);
         }
 
-        public void OnScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount)
+        public override void OnBackPressed() { }
+        private async void GetOrdenes()
         {
-            throw new System.NotImplementedException();
+            IsLoadingMore = true;
+            data.Clear();
+            var ordenes = await api.GetOrders("t_juliolv", 1);
+            foreach (var item in ordenes)
+            {
+                data.Add(item);
+            }
+            adapter.NotifyDataSetChanged();
+            refresh.Refreshing = false;
+            adapter.NotifyItemRemoved(adapter.ItemCount);
+            IsLoadingMore = false;
         }
-
-        public void OnScrollStateChanged(AbsListView view, [GeneratedEnum] ScrollState scrollState)
+        private async void AddData()
         {
-            throw new System.NotImplementedException();
+            IsLoadingMore = true;
+            var ordenes = await api.GetOrders("t_juliolv", 1);
+            foreach (var item in ordenes)
+            {
+                data.Add(item);
+            }
+            adapter.NotifyDataSetChanged();
+            refresh.Refreshing = false;
+            adapter.NotifyItemRemoved(adapter.ItemCount);
+            IsLoadingMore = false;
+        }
+        private async void InsertData()
+        {
+            IsLoadingMore = true;
+            var ordenes = await api.GetOrders("t_juliolv", 1);
+            data.Clear();
+            foreach (var item in ordenes)
+            {
+                data.Add(item);
+            }
+            
+            adapter.NotifyDataSetChanged();
+            refresh.Refreshing = false;
+            adapter.NotifyItemRemoved(adapter.ItemCount);
+            IsLoadingMore = false;
         }
     }
 }

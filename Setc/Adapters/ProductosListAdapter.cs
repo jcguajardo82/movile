@@ -29,7 +29,7 @@ namespace Setc.Adapters
             if (convertView == null)
             {
                 convertView = _context.LayoutInflater
-                    .Inflate(Resource.Layout.ordenitem_layout, null);
+                    .Inflate(Resource.Layout.orden_layout, null);
             }
 
             convertView.FindViewById<TextView>(Resource.Id.numeroTextView).Text =
