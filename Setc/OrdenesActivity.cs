@@ -60,7 +60,7 @@ namespace Setc
             handler.PostDelayed(() =>
             {
                 InsertData();
-            }, 2000);
+            }, 1000);
         }
 
         public override void OnBackPressed() { }
@@ -69,23 +69,19 @@ namespace Setc
             IsLoadingMore = true;
             data.Clear();
             var ordenes = await api.GetOrders("t_juliolv", 1);
-            foreach (var item in ordenes)
-            {
-                data.Add(item);
-            }
+            data.AddRange(ordenes);
             adapter.NotifyDataSetChanged();
             refresh.Refreshing = false;
             adapter.NotifyItemRemoved(adapter.ItemCount);
             IsLoadingMore = false;
+            if (data.Count == 0)
+                SnackbarMaker.Make("Sin Ordenes de entrega", recyclerView);
         }
         private async void AddData()
         {
             IsLoadingMore = true;
             var ordenes = await api.GetOrders("t_juliolv", 1);
-            foreach (var item in ordenes)
-            {
-                data.Add(item);
-            }
+            data.AddRange(ordenes);
             adapter.NotifyDataSetChanged();
             refresh.Refreshing = false;
             adapter.NotifyItemRemoved(adapter.ItemCount);
@@ -96,15 +92,13 @@ namespace Setc
             IsLoadingMore = true;
             var ordenes = await api.GetOrders("t_juliolv", 1);
             data.Clear();
-            foreach (var item in ordenes)
-            {
-                data.Add(item);
-            }
-            
+            data.AddRange(ordenes);       
             adapter.NotifyDataSetChanged();
             refresh.Refreshing = false;
             adapter.NotifyItemRemoved(adapter.ItemCount);
             IsLoadingMore = false;
+            if (data.Count == 0)
+                SnackbarMaker.Make("Sin Ordenes de entrega", recyclerView);
         }
     }
 }
