@@ -23,10 +23,15 @@ namespace Setc
         private RecyclerView recyclerView;
         private OrdenesListAdapter adapter;
         private bool IsLoadingMore = false;
-
+        private int Page = 1;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
+            if (savedInstanceState != null)
+            {
+                Page = savedInstanceState.GetInt("pagina");
+                data = (List<OrdenModel>)savedInstanceState.GetParcelableArrayList("datos");
+            }
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             SetContentView(Resource.Layout.content_ordenes);
             handler = new Handler();
@@ -43,7 +48,7 @@ namespace Setc
             };
 
             adapter.OnItemClick += (view, position) =>
-            {                
+            {
                 Intent intent = new Intent(this, typeof(DetalleActivity));
                 StartActivity(intent);
             };
@@ -51,8 +56,18 @@ namespace Setc
             RecyclerView.OnScrollListener scroll = new RecyclerViewOnScrollListtener(refresh, handler, linearLayoutManager, adapter, AddData, IsLoadingMore);
 
             recyclerView.AddOnScrollListener(scroll);
+            if (data.Count == 0)
+            {
+                Page = 1;
+                GetOrdenes();
+            }
+        }
+        protected override void OnSaveInstanceState(Bundle outState)
+        {
+            outState.PutInt("pagina", Page);
 
-            GetOrdenes();
+            outState.PutParcelableArrayList("datos", (IList<IParcelable>)data);
+            base.OnSaveInstanceState(outState);
         }
 
         private void SwipeRefreshLayout_Refresh()
@@ -68,7 +83,7 @@ namespace Setc
         {
             IsLoadingMore = true;
             data.Clear();
-            var ordenes = await api.GetOrders("t_juliolv", 1);
+            var ordenes = await api.GetOrders("t_juliolv", Page);
             data.AddRange(ordenes);
             adapter.NotifyDataSetChanged();
             refresh.Refreshing = false;
@@ -76,29 +91,34 @@ namespace Setc
             IsLoadingMore = false;
             if (data.Count == 0)
                 SnackbarMaker.Make("Sin Ordenes de entrega", recyclerView);
+            else
+                Page++;
         }
         private async void AddData()
         {
             IsLoadingMore = true;
-            var ordenes = await api.GetOrders("t_juliolv", 1);
+            var ordenes = await api.GetOrders("t_juliolv", Page);
             data.AddRange(ordenes);
             adapter.NotifyDataSetChanged();
             refresh.Refreshing = false;
             adapter.NotifyItemRemoved(adapter.ItemCount);
+            Page++;
             IsLoadingMore = false;
         }
         private async void InsertData()
         {
             IsLoadingMore = true;
-            var ordenes = await api.GetOrders("t_juliolv", 1);
+            var ordenes = await api.GetOrders("t_juliolv", Page);
             data.Clear();
-            data.AddRange(ordenes);       
+            data.AddRange(ordenes);
             adapter.NotifyDataSetChanged();
             refresh.Refreshing = false;
             adapter.NotifyItemRemoved(adapter.ItemCount);
             IsLoadingMore = false;
             if (data.Count == 0)
                 SnackbarMaker.Make("Sin Ordenes de entrega", recyclerView);
+            else
+                Page++;
         }
     }
 }
