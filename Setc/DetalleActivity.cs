@@ -7,6 +7,7 @@ using AndroidX.AppCompat.App;
 using Setc.Adapters;
 using Setc.Models;
 using System.Collections.Generic;
+using System.Text.Json;
 using Xamarin.Essentials;
 using AlertDialog = AndroidX.AppCompat.App.AlertDialog;
 
@@ -15,24 +16,26 @@ namespace Setc
     [Activity(Label = "Detalle de Ordenes")]
     public class DetalleActivity : AppCompatActivity
     {
+        private OrdenModel data;
         private ListView _ordenesListView;
         private List<DetalleModel> _ordenes;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            Xamarin.Essentials.Platform.Init(this, savedInstanceState);
+            Platform.Init(this, savedInstanceState);
             SetContentView(Resource.Layout.content_detalle);
-
+            string json = Intent.GetStringExtra("detalle");
+            data = JsonSerializer.Deserialize<OrdenModel>(json);
             _ordenesListView = FindViewById<ListView>(Resource.Id.OrdenesListViewControl);
-            _ordenes = GetOrdenes();
+            _ordenes = data.detalle;
             _ordenesListView.Adapter = new ProductosListAdapter(this, _ordenes);
 
-            var login = FindViewById<Button>(Resource.Id.btnFinalizar);
+            var terminar = FindViewById<Button>(Resource.Id.btnFinalizar);
             var maps = FindViewById<ImageButton>(Resource.Id.btnMap);
             var enProceso = FindViewById<Button>(Resource.Id.btnEnProceso);
             var direccionText = FindViewById<TextView>(Resource.Id.textViewDireccion);
 
-            login.Click += (sender, e) =>
+            terminar.Click += (sender, e) =>
             {
                 Intent intent = new Intent(this, typeof(FinalizarActivity));
                 StartActivity(intent);
@@ -66,12 +69,6 @@ namespace Setc
                 dialog.Show();
             };
 
-        }
-
-        private List<DetalleModel> GetOrdenes()
-        {
-            var result = new List<DetalleModel>();
-            return result;
         }
     }
 }

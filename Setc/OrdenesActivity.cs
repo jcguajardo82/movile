@@ -10,6 +10,7 @@ using Setc.Api;
 using Setc.Controls;
 using Setc.Models;
 using System.Collections.Generic;
+using System.Text.Json;
 
 namespace Setc
 {
@@ -30,7 +31,8 @@ namespace Setc
             if (savedInstanceState != null)
             {
                 Page = savedInstanceState.GetInt("pagina");
-                data = (List<OrdenModel>)savedInstanceState.GetParcelableArrayList("datos");
+                string json = savedInstanceState.GetString("datos");
+                data = JsonSerializer.Deserialize<List<OrdenModel>>(json);
             }
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             SetContentView(Resource.Layout.content_ordenes);
@@ -50,6 +52,8 @@ namespace Setc
             adapter.OnItemClick += (view, position) =>
             {
                 Intent intent = new Intent(this, typeof(DetalleActivity));
+                string detalle = JsonSerializer.Serialize(data[position]);
+                intent.PutExtra("detalle",detalle);
                 StartActivity(intent);
             };
             LinearLayoutManager linearLayoutManager = (LinearLayoutManager)recyclerView.GetLayoutManager();
@@ -65,8 +69,8 @@ namespace Setc
         protected override void OnSaveInstanceState(Bundle outState)
         {
             outState.PutInt("pagina", Page);
-
-            outState.PutParcelableArrayList("datos", (IList<IParcelable>)data);
+            string json = JsonSerializer.Serialize(data);
+            outState.PutString("datos", json);
             base.OnSaveInstanceState(outState);
         }
 
