@@ -11,6 +11,7 @@ using Setc.Controls;
 using Setc.Models;
 using System.Collections.Generic;
 using System.Text.Json;
+using Xamarin.Essentials;
 
 namespace Setc
 {
@@ -25,6 +26,7 @@ namespace Setc
         private OrdenesListAdapter adapter;
         private bool IsLoadingMore = false;
         private int Page = 1;
+        private bool internet = true;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -53,11 +55,13 @@ namespace Setc
             {
                 Intent intent = new Intent(this, typeof(DetalleActivity));
                 string detalle = JsonSerializer.Serialize(data[position]);
-                intent.PutExtra("detalle",detalle);
+                intent.PutExtra("detalle", detalle);
                 StartActivity(intent);
             };
             LinearLayoutManager linearLayoutManager = (LinearLayoutManager)recyclerView.GetLayoutManager();
             RecyclerView.OnScrollListener scroll = new RecyclerViewOnScrollListtener(refresh, handler, linearLayoutManager, adapter, AddData, IsLoadingMore);
+
+            NetworkState();
 
             recyclerView.AddOnScrollListener(scroll);
             if (data.Count == 0)
@@ -65,6 +69,7 @@ namespace Setc
                 Page = 1;
                 GetOrdenes();
             }
+
         }
         protected override void OnSaveInstanceState(Bundle outState)
         {
@@ -78,51 +83,92 @@ namespace Setc
         {
             handler.PostDelayed(() =>
             {
-                InsertData();
+                RefreshData();
             }, 1000);
         }
 
         public override void OnBackPressed() { }
         private async void GetOrdenes()
         {
-            IsLoadingMore = true;
-            data.Clear();
-            var ordenes = await api.GetOrders("t_juliolv", Page);
-            data.AddRange(ordenes);
-            adapter.NotifyDataSetChanged();
-            refresh.Refreshing = false;
-            adapter.NotifyItemRemoved(adapter.ItemCount);
-            IsLoadingMore = false;
-            if (data.Count == 0)
-                SnackbarMaker.Make("Sin Ordenes de entrega", recyclerView);
+            if (internet == false)
+            {
+                SnackbarMaker.Make("No tiene acceso a Internet", recyclerView);
+                return;
+            }
             else
-                Page++;
+            {
+                IsLoadingMore = true;
+                data.Clear();
+                var ordenes = await api.GetOrders("t_juliolv", Page);
+                data.AddRange(ordenes);
+                adapter.NotifyDataSetChanged();
+                refresh.Refreshing = false;
+                adapter.NotifyItemRemoved(adapter.ItemCount);
+                IsLoadingMore = false;
+                if (data.Count == 0)
+                    SnackbarMaker.Make("Sin Ordenes de entrega", recyclerView);
+                else
+                    Page++;
+            }
         }
         private async void AddData()
         {
-            IsLoadingMore = true;
-            var ordenes = await api.GetOrders("t_juliolv", Page);
-            data.AddRange(ordenes);
-            adapter.NotifyDataSetChanged();
-            refresh.Refreshing = false;
-            adapter.NotifyItemRemoved(adapter.ItemCount);
-            Page++;
-            IsLoadingMore = false;
-        }
-        private async void InsertData()
-        {
-            IsLoadingMore = true;
-            var ordenes = await api.GetOrders("t_juliolv", Page);
-            data.Clear();
-            data.AddRange(ordenes);
-            adapter.NotifyDataSetChanged();
-            refresh.Refreshing = false;
-            adapter.NotifyItemRemoved(adapter.ItemCount);
-            IsLoadingMore = false;
-            if (data.Count == 0)
-                SnackbarMaker.Make("Sin Ordenes de entrega", recyclerView);
+            if (internet == false)
+            {
+                SnackbarMaker.Make("No tiene acceso a Internet", recyclerView);
+                return;
+            }
             else
+            {
+                IsLoadingMore = true;
+                var ordenes = await api.GetOrders("t_juliolv", Page);
+                data.AddRange(ordenes);
+                adapter.NotifyDataSetChanged();
+                refresh.Refreshing = false;
+                adapter.NotifyItemRemoved(adapter.ItemCount);
                 Page++;
+                IsLoadingMore = false;
+            }
+        }
+        private async void RefreshData()
+        {
+            if (internet == false)
+            {
+                SnackbarMaker.Make("No tiene acceso a Internet", recyclerView);
+                return;
+            }
+            else
+            {
+                IsLoadingMore = true;
+                var ordenes = await api.GetOrders("t_juliolv", Page);
+                data.Clear();
+                data.AddRange(ordenes);
+                adapter.NotifyDataSetChanged();
+                refresh.Refreshing = false;
+                adapter.NotifyItemRemoved(adapter.ItemCount);
+                IsLoadingMore = false;
+                if (data.Count == 0)
+                    SnackbarMaker.Make("Sin Ordenes de entrega", recyclerView);
+                else
+                    Page++;
+            }
+        }
+        private void NetworkState()
+        {
+            Connectivity.ConnectivityChanged += GetNetworkChange;
+        }
+        private void GetNetworkChange(object sender, ConnectivityChangedEventArgs e)
+        {
+            var access = e.NetworkAccess;
+            if (access == NetworkAccess.Internet)
+            {
+                internet = true;
+            }
+            else
+            {
+                internet = false;
+                SnackbarMaker.Make("No tiene acceso a Internet", recyclerView);
+            }
         }
     }
 }

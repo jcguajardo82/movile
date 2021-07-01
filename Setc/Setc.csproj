@@ -61,6 +61,8 @@
     <AndroidEnableProfiledAot>false</AndroidEnableProfiledAot>
     <BundleAssemblies>false</BundleAssemblies>
     <MandroidI18n />
+    <AndroidSupportedAbis>x86;x86_64</AndroidSupportedAbis>
+    <AndroidLinkTool>r8</AndroidLinkTool>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -82,6 +84,7 @@
     <Compile Include="FinalizarActivity.cs" />
     <Compile Include="Helpers\Constants.cs" />
     <Compile Include="Controls\SnackbarMaker.cs" />
+    <Compile Include="Models\EstatusOrder.cs" />
     <Compile Include="PermisosActivity.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Models\DetalleModel.cs" />
@@ -135,6 +138,9 @@
   <ItemGroup>
     <PackageReference Include="Refractored.MvvmHelpers">
       <Version>1.6.2</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.ConstraintLayout">
+      <Version>2.0.4.2</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.AndroidX.Lifecycle.LiveData" Version="2.3.1" />
     <PackageReference Include="Xamarin.AndroidX.Legacy.Support.Core.UI" Version="1.0.0.8" />
@@ -213,6 +219,12 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\item_recyclerView_foot.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\producto_layout.xml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

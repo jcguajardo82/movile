@@ -17,11 +17,11 @@ namespace Setc.Api
             setcApi = RestService.For<ISetcApi>(Constants.SectUrl);
         }
 
-        //public async Task<string> ChangeEstatusOrder(int orden, int estatus)
-        //{
-        //    var response = await setcApi.ChangeEstatusOrder(orden, estatus);
-        //    return response;
-        //}
+        public async Task<EstatusOrder> ChangeEstatusOrder(int orden, string estatus)
+        {
+            var response = await setcApi.ChangeEstatusOrder(orden, estatus);
+            return response;
+        }
 
         //public async Task<string> GetCuestionario(string usuario)
         //{
@@ -31,8 +31,16 @@ namespace Setc.Api
 
         public async Task<List<OrdenModel>> GetOrders(string usuario, int pagina)
         {
-            var response = await setcApi.GetOrders(usuario, pagina);
-            return response;
+            var ordenes = new List<OrdenModel>();
+            try
+            {
+                ordenes = await setcApi.GetOrders(usuario, pagina);
+                return ordenes;
+            }
+            catch
+            {
+                return ordenes;
+            }
         }
 
         public async Task<string> Login(LoginModel userLogin)

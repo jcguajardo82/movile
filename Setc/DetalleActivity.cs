@@ -4,16 +4,19 @@ using Android.Graphics;
 using Android.OS;
 using Android.Widget;
 using AndroidX.AppCompat.App;
+using Google.Android.Material.AppBar;
+using Google.Android.Material.FloatingActionButton;
 using Setc.Adapters;
+using Setc.Api;
 using Setc.Models;
 using System.Collections.Generic;
 using System.Text.Json;
 using Xamarin.Essentials;
 using AlertDialog = AndroidX.AppCompat.App.AlertDialog;
-
+using Toolbar = AndroidX.AppCompat.Widget.Toolbar;
 namespace Setc
 {
-    [Activity(Label = "Detalle de Ordenes")]
+    [Activity(Theme = "@style/AppTheme.NoActionBar")]
     public class DetalleActivity : AppCompatActivity
     {
         private OrdenModel data;
@@ -24,40 +27,52 @@ namespace Setc
             base.OnCreate(savedInstanceState);
             Platform.Init(this, savedInstanceState);
             SetContentView(Resource.Layout.content_detalle);
+
+            var toolbar = FindViewById(Resource.Id.toolbar);
+            var bar = FindViewById<Toolbar>(Resource.Id.toolbar);
+            SetSupportActionBar(bar);
             string json = Intent.GetStringExtra("detalle");
             data = JsonSerializer.Deserialize<OrdenModel>(json);
+            FindViewById<CollapsingToolbarLayout>(Resource.Id.toolbar_layout).Title = data.customerName.ToUpperInvariant();
             _ordenesListView = FindViewById<ListView>(Resource.Id.OrdenesListViewControl);
             _ordenes = data.detalle;
             _ordenesListView.Adapter = new ProductosListAdapter(this, _ordenes);
-
+            _ordenesListView.NestedScrollingEnabled = true;
             var terminar = FindViewById<Button>(Resource.Id.btnFinalizar);
-            var maps = FindViewById<ImageButton>(Resource.Id.btnMap);
             var enProceso = FindViewById<Button>(Resource.Id.btnEnProceso);
+            var mapa = FindViewById<FloatingActionButton>(Resource.Id.mapa);
+            var ordenText = FindViewById<TextView>(Resource.Id.textViewOrden);
             var direccionText = FindViewById<TextView>(Resource.Id.textViewDireccion);
+            var pagoText = FindViewById<TextView>(Resource.Id.textViewTipoPago);
+            var itemsText = FindViewById<TextView>(Resource.Id.textViewProductos);
 
+            ordenText.Text = $"Orden Número {data.orderNo}";
+            itemsText.Text = $"Total de Productos {data.detalle.Count}";
+            mapa.Click += async (sender, e) =>
+            {
+                string direccion = $"{data.address1} {data.address2}";
+                await Launcher.OpenAsync($"http://maps.google.com/?daddr={direccion}");
+            };
             terminar.Click += (sender, e) =>
             {
                 Intent intent = new Intent(this, typeof(FinalizarActivity));
                 StartActivity(intent);
             };
 
-            maps.Click += async (sender, e) =>
-            {
-                string direccion = "paseo+del+rio+no.+31+geovillas+castillotla+puebla+72498";
-                await Launcher.OpenAsync($"http://maps.google.com/?daddr={direccion}");
 
-            };
 
-            enProceso.Click += delegate
+            enProceso.Click +=  (sender, e) =>
             {
                 AlertDialog.Builder alert = new AlertDialog.Builder(this);
                 alert.SetTitle("Atención");
                 alert.SetMessage("Se procede a entrega");
 
-                alert.SetPositiveButton("Aceptar", (senderAlert, args) =>
+                alert.SetPositiveButton("Aceptar", async (senderAlert, args) =>
                 {
+                    Apis api = new Apis();
+                    await api.ChangeEstatusOrder(data.orderNo, "EN PROGRESO");
                     enProceso.SetBackgroundColor(Color.LightGray);
-
+                    enProceso.Enabled = false;
                 });
 
                 alert.SetNegativeButton("Cancelar", (senderAlert, args) =>

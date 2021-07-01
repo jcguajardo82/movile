@@ -22,11 +22,11 @@ namespace Setc.Adapters
         private const int VIEW_FOOTER = 1;
         public delegate void ItemClick(View v, int position);
         public event ItemClick OnItemClick;
-        private interface OnItemClickListener
+        private interface IOnItemClickListener
         {
             void onItemClick(View view, int position);
         };
-        private OnItemClickListener _OnItemClickListener = null;
+       // private IOnItemClickListener _OnItemClickListener = null;
         public OrdenesListAdapter(List<OrdenModel> list, Context context)
         {
             data = list;
@@ -47,11 +47,12 @@ namespace Setc.Adapters
         }
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
-            if (holder is MyViewHolder)
+            if (holder is OrderHolder)
             {
-                MyViewHolder myViewHolder = holder as MyViewHolder;
-                myViewHolder.tvTitle.Text = data[position].orderNo.ToString();
-                myViewHolder.ItemView.Tag = position;
+                OrderHolder orden = holder as OrderHolder;
+                orden.NoOrden.Text = data[position].orderNo.ToString();
+                orden.Cliente.Text = data[position].customerName;
+                orden.ItemView.Tag = position;
             }          
         }
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
@@ -59,7 +60,7 @@ namespace Setc.Adapters
             if (viewType == VIEW_ITEM)
             {
                 var itemView = LayoutInflater.From(_context).Inflate(Resource.Layout.orden_layout, parent, false);
-                MyViewHolder myViewHolder = new MyViewHolder(itemView);
+                OrderHolder myViewHolder = new OrderHolder(itemView);
 
                 itemView.Click += delegate
                 {
@@ -78,15 +79,17 @@ namespace Setc.Adapters
         public override void OnViewRecycled(Java.Lang.Object holder)
         {
             base.OnViewRecycled(holder);
-            MyViewHolder myViewHolder = holder as MyViewHolder;
+            OrderHolder myViewHolder = holder as OrderHolder;
         }
     }
-    public class MyViewHolder : RecyclerView.ViewHolder
+    public class OrderHolder : RecyclerView.ViewHolder
     {
-        public TextView tvTitle;
-        public MyViewHolder(View itemView) : base(itemView)
+        public TextView NoOrden;
+        public TextView Cliente;
+        public OrderHolder(View itemView) : base(itemView)
         {
-            tvTitle = itemView.FindViewById<TextView>(Resource.Id.numeroTextView);
+            NoOrden = itemView.FindViewById<TextView>(Resource.Id.numeroTextView);
+            Cliente = itemView.FindViewById<TextView>(Resource.Id.clienteTextView);
         }
     }
     public class FootViewHolder : RecyclerView.ViewHolder

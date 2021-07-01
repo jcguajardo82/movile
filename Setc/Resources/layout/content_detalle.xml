@@ -1,123 +1,140 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:clipChildren="false"
-    android:clipToPadding="false"
-    android:orientation="vertical"
-    android:padding="24dp"
-    android:paddingTop="16dp">
-    <TextView
-        android:text="Nombre Cliente"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/textViewNombre" />
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
 
-       <TextView
-        android:paddingTop="20dp"
-        android:text="Tipo De Pago"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/textViewTipoPago" />
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
-        android:gravity="center"
-        android:layout_gravity="center">
-        <LinearLayout
-            android:orientation="horizontal"
+        android:layout_height="@dimen/app_bar_height"
+        android:fitsSystemWindows="true"
+        android:theme="@style/AppTheme.AppBarOverlay">
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/toolbar_layout"
             android:layout_width="match_parent"
-            android:paddingTop="20dp"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            app:contentScrim="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:toolbarId="@+id/toolbar">
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/mapa"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/fab_margin"
+        app:layout_anchor="@id/app_bar"
+        app:backgroundTint="@color/colorVerde"
+        app:layout_anchorGravity="bottom|end"
+        app:srcCompat="@drawable/map" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:layout_gravity="fill"
+        android:layout_margin="@dimen/fab_margin"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="fill"
+            android:fillViewport="true"
+            android:orientation="vertical">
+
+              <TextView
+                android:id="@+id/textViewOrden"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Orden Número:"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                app:layout_constraintTop_toBottomOf="@+id/textViewTipoPago" />
+
             <TextView
-                
+                android:id="@+id/textViewDireccion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:text="Direccón Cliente"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:layout_width="250dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:id="@+id/textViewDireccion" />
-            <ImageButton                
-                android:src="@drawable/map"
-                android:layout_width="50dp"
+                app:layout_constraintTop_toBottomOf="@+id/textViewOrden" />
+
+            <TextView
+                android:id="@+id/textViewTipoPago"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@android:color/transparent"
-                android:layout_weight="1"
-                android:id="@+id/btnMap" />
+                android:layout_marginTop="8dp"
+                android:text="Método De Pago"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                app:layout_constraintTop_toBottomOf="@+id/textViewDireccion"/>
 
-        </LinearLayout>
-    </RelativeLayout>
-
-
-
-
-
-    <com.google.android.material.card.MaterialCardView
-        android:clickable="false"
-        android:focusable="false"
-        android:checkable="false"
-        android:layout_marginTop="15.0dp"
-        android:layout_marginBottom="15.0dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ListView
-            android:minWidth="25px"
-            android:minHeight="25px"
-            android:layout_width="match_parent"
-            android:layout_height="300.5dp"
-            android:id="@+id/OrdenesListViewControl"
-            android:layout_gravity="bottom"
-            android:layout_marginTop="5.0dp"
-            android:layout_marginBottom="5.0dp"
-            android:layout_marginLeft="5.0dp"
-            android:layout_marginRight="5.0dp" />
-
-    </com.google.android.material.card.MaterialCardView>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
-        android:gravity="center"
-        android:layout_gravity="center">
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnEnProceso"
-                style="@style/Widget.MaterialComponents.Button"
+            <TextView
+                android:id="@+id/textViewProductos"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="5dp"
-                android:layout_marginRight="5dp"
-                app:backgroundTint="@color/colorVerde"
-                android:layout_weight="1"
-                android:text="@string/enProceso"/>
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Total de Productos"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                app:layout_constraintTop_toBottomOf="@+id/textViewTipoPago" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnFinalizar"
-                style="@style/Widget.MaterialComponents.Button"
+            <ListView
+                android:id="@+id/OrdenesListViewControl"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="5dp"
-                android:layout_marginRight="5dp"
-                app:backgroundTint="@color/colorVerde"
-                android:layout_weight="1"
-                android:text="@string/loginBtnFinalizar"/>
-
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill"
+                app:layout_anchorGravity="fill"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="25dp"
+                app:layout_constraintTop_toBottomOf="@+id/textViewProductos" />
         </LinearLayout>
-    </RelativeLayout>
 
+    </androidx.core.widget.NestedScrollView>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:orientation="horizontal"
+        app:layout_anchorGravity="fill">
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnEnProceso"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:text="@string/enProceso"
+            app:backgroundTint="@color/colorVerde" />
 
-</LinearLayout>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnFinalizar"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:text="@string/loginBtnFinalizar"
+            app:backgroundTint="@color/colorVerde" />
+
+    </LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

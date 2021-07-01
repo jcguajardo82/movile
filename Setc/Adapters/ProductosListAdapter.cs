@@ -29,15 +29,14 @@ namespace Setc.Adapters
             if (convertView == null)
             {
                 convertView = _context.LayoutInflater
-                    .Inflate(Resource.Layout.orden_layout, null);
+                    .Inflate(Resource.Layout.producto_layout, null);
             }
 
-            convertView.FindViewById<TextView>(Resource.Id.numeroTextView).Text =
-                item.barcode.ToString();
-
-            convertView.FindViewById<TextView>(Resource.Id.descripcionTextView).Text =
+            convertView.FindViewById<TextView>(Resource.Id.productoTextView).Text =
                 item.productName;
 
+            convertView.FindViewById<TextView>(Resource.Id.cantidadTextView).Text =
+                $"Cantidad: {item.quantity} {item.unitMeasure}";
 
 
             return convertView;

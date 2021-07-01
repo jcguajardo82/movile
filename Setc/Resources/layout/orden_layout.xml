@@ -7,7 +7,7 @@
     android:padding="10dp"
     android:paddingTop="5dp"
     android:layout_width="match_parent"
-    android:background="@drawable/ripple_recyclerView"
+    android:background="@drawable/ripple_recyclerview"
     android:layout_height="wrap_content">
 
 
@@ -30,7 +30,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="left"
-            android:id="@+id/descripcionTextView"
+            android:id="@+id/clienteTextView"
             android:textStyle="bold" />
     </LinearLayout>
     <TextView
