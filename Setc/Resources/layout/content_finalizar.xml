@@ -28,52 +28,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
-
-        <RelativeLayout
-            android:paddingTop="26dp"
+        <LinearLayout
+            android:orientation="horizontal"
+            android:minWidth="25px"
+            android:minHeight="25px"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentBottom="true"
-            android:gravity="center"
-            android:layout_gravity="center">
+            android:layout_height="wrap_content"
+            android:id="@+id/linearLayout1" />
+
             <LinearLayout
-                android:orientation="horizontal"
+                android:id="@+id/preguntas"
+                android:layout_marginBottom="10dp"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-                <TextView
-                    android:text="¿Está satisfecho con el servicio?"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:id="@+id/textViewNombre" />
+            </LinearLayout>           
 
-                <RadioGroup
-                    android:id="@+id/radio_group"
-                    android:layout_width="250dp"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:layout_weight="1"
-                    android:layout_above="@+id/view_below">
-
-                    <RadioButton
-                        android:id="@+id/radio1"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:checked="true"
-                        android:text="SI" />
-
-                    <RadioButton
-                        android:id="@+id/radio2"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:text="NO" />
-                </RadioGroup>
-
-            </LinearLayout>
-        </RelativeLayout>
+ 
         <com.google.android.material.button.MaterialButton
             style="@style/Widget.MaterialComponents.Button"
             android:id="@+id/btnFinalizar"

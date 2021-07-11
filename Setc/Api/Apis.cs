@@ -23,11 +23,11 @@ namespace Setc.Api
             return response;
         }
 
-        //public async Task<string> GetCuestionario(string usuario)
-        //{
-        //    var response = await setcApi.GetCuestionario(usuario);
-        //    return response;
-        //}
+        public async Task<List<CuestionarioModel>> GetCuestionario(string usuario)
+        {
+            var response = await setcApi.GetCuestionario(usuario);
+            return response;
+        }
 
         public async Task<List<OrdenModel>> GetOrders(string usuario, int pagina)
         {
