@@ -16,8 +16,8 @@ namespace Setc.Api
 {
     public interface ISetcApi
     {
-        [Post("/api/ChangeEstatusOrder?NoOrder={orden}&Status={estatus}")]
-        Task<EstatusOrder> ChangeEstatusOrder(int orden, string estatus);
+        [Post("/api/ChangeEstatusOrder?NoOrder={orden}&Status={estatus}&UEOrder={id}")]
+        Task<EstatusOrder> ChangeEstatusOrder(int orden, string estatus, int id);
 
         //[Post("/api/GetCuestionario?Id_User={usuario}")]
         //Task<string> GetCuestionario(string usuario);

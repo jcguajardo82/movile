@@ -17,9 +17,9 @@ namespace Setc.Api
             setcApi = RestService.For<ISetcApi>(Constants.SectUrl);
         }
 
-        public async Task<EstatusOrder> ChangeEstatusOrder(int orden, string estatus)
+        public async Task<EstatusOrder> ChangeEstatusOrder(int orden, string estatus, int id)
         {
-            var response = await setcApi.ChangeEstatusOrder(orden, estatus);
+            var response = await setcApi.ChangeEstatusOrder(orden, estatus, id);
             return response;
         }
 

@@ -56,33 +56,35 @@ namespace Setc
             terminar.Click += (sender, e) =>
             {
                 Intent intent = new Intent(this, typeof(FinalizarActivity));
+                string detalle = JsonSerializer.Serialize(data);
+                intent.PutExtra("detalle", detalle);
                 StartActivity(intent);
             };
 
 
 
-            enProceso.Click +=  (sender, e) =>
-            {
-                AlertDialog.Builder alert = new AlertDialog.Builder(this);
-                alert.SetTitle("Atención");
-                alert.SetMessage("Se procede a entrega");
+            enProceso.Click += (sender, e) =>
+           {
+               AlertDialog.Builder alert = new AlertDialog.Builder(this);
+               alert.SetTitle("Atención");
+               alert.SetMessage("Se procede a entrega");
 
-                alert.SetPositiveButton("Aceptar", async (senderAlert, args) =>
-                {
-                    Apis api = new Apis();
-                    await api.ChangeEstatusOrder(data.orderNo, "EN PROGRESO");
-                    enProceso.SetBackgroundColor(Color.LightGray);
-                    enProceso.Enabled = false;
-                });
+               alert.SetPositiveButton("Aceptar", async (senderAlert, args) =>
+               {
+                   Apis api = new Apis();
+                   await api.ChangeEstatusOrder(data.orderNo, "EN PROGRESO", 3);
+                   enProceso.SetBackgroundColor(Color.LightGray);
+                   enProceso.Enabled = false;
+               });
 
-                alert.SetNegativeButton("Cancelar", (senderAlert, args) =>
-                {
+               alert.SetNegativeButton("Cancelar", (senderAlert, args) =>
+               {
 
-                });
+               });
 
-                Dialog dialog = alert.Create();
-                dialog.Show();
-            };
+               Dialog dialog = alert.Create();
+               dialog.Show();
+           };
 
         }
     }
