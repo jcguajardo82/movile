@@ -20,6 +20,6 @@ namespace Setc.Api
         Task<EstatusOrder> ChangeEstatusOrder(int orden, string estatus, int id);
         Task<List<CuestionarioModel>> GetCuestionario(string usuario);
         Task<List<OrdenModel>> GetOrders(string usuario, int pagina);
-        //Task<string> SendCuestionario();
+        Task<string> SendCuestionario(List<RespuestaModel> respuestas);
     }
 }

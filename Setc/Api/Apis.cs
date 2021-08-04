@@ -60,10 +60,10 @@ namespace Setc.Api
             return exito;
         }
 
-        //public async Task<string> SendCuestionario()
-        //{
-        //    var response = await setcApi.SendCuestionario();
-        //    return response;
-        //}
+        public async Task<string> SendCuestionario(List<RespuestaModel> respuestas)
+        {
+            var response = await setcApi.SendCuestionario(respuestas);
+            return response;
+        }
     }
 }

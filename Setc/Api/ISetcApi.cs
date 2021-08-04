@@ -25,7 +25,7 @@ namespace Setc.Api
         [Post("/api/GetOrders?Id_User={usuario}&Id_Page={pagina}")]
         Task<List<OrdenModel>> GetOrders(string usuario, int pagina);
 
-        //[Post("/api/SendCuestionario")]
-        //Task<string> SendCuestionario();
+        [Post("/api/SendCuestionario")]
+        Task<string> SendCuestionario([Body] List<RespuestaModel> respuestas);
     }
 }

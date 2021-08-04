@@ -9,11 +9,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Setc.Helpers
+namespace Setc.Models
 {
-   public static class Constants
+    public class RespuestaModel
     {
-        public const string GestorUrl = "http://gestorinvsc.supercity.com.mx/";
-        public const string SectUrl = "https://sorianaappomsmsqa.azurewebsites.net";
+        public int id { get; set; }
+        public string respuesta { get; set; }
     }
 }
