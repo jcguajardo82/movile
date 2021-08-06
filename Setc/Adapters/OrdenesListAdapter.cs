@@ -1,16 +1,10 @@
-﻿using Android.App;
-using Android.Content;
-using Android.Graphics;
-using Android.OS;
-using Android.Runtime;
+﻿using Android.Content;
 using Android.Views;
 using Android.Widget;
 using AndroidX.RecyclerView.Widget;
 using Setc.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Android.Graphics;
 
 namespace Setc.Adapters
 {
@@ -26,7 +20,7 @@ namespace Setc.Adapters
         {
             void onItemClick(View view, int position);
         };
-       // private IOnItemClickListener _OnItemClickListener = null;
+        private IOnItemClickListener _OnItemClickListener = null;
         public OrdenesListAdapter(List<OrdenModel> list, Context context)
         {
             data = list;
@@ -50,10 +44,33 @@ namespace Setc.Adapters
             if (holder is OrderHolder)
             {
                 OrderHolder orden = holder as OrderHolder;
-                orden.NoOrden.Text = data[position].orderNo.ToString();
-                orden.Cliente.Text = data[position].customerName;
+                OrdenModel ordenItem = data[position];
+                orden.NoOrden.Text = ordenItem.orderNo.ToString();
+                orden.Cliente.Text = ordenItem.CustomerNameToTitleCase();               
+                orden.Fecha.Text = $"Entregar el {ordenItem.deliveryDate}";
+                Color color = Color.Black;
+                switch (ordenItem.Status())
+                {
+                    case 0:
+                        color = Color.DarkGreen;
+                        orden.Estatus.Text = "EN TIEMPO";
+                        orden.Estatus.SetTextColor(color);
+                        break;
+                    case 1:
+                        color = Color.Yellow;
+                        orden.Estatus.Text = "EN TIEMPO";
+                        orden.Estatus.SetTextColor(color);
+                        break;
+                    case 2:
+                        color = Color.DarkRed;
+                        orden.Estatus.Text = "RETRASADO";
+                        orden.Estatus.SetTextColor(color);
+                        break;
+                }
+
+
                 orden.ItemView.Tag = position;
-            }          
+            }
         }
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
         {
@@ -73,9 +90,12 @@ namespace Setc.Adapters
                 View view = LayoutInflater.From(_context).Inflate(Resource.Layout.item_recyclerView_foot, parent, false);
                 return new FootViewHolder(view);
             }
-            return null;
+            else
+            {
+                return null;
+            }
         }
-        
+
         public override void OnViewRecycled(Java.Lang.Object holder)
         {
             base.OnViewRecycled(holder);
@@ -86,10 +106,14 @@ namespace Setc.Adapters
     {
         public TextView NoOrden;
         public TextView Cliente;
+        public TextView Estatus;
+        public TextView Fecha;
         public OrderHolder(View itemView) : base(itemView)
         {
             NoOrden = itemView.FindViewById<TextView>(Resource.Id.numeroTextView);
             Cliente = itemView.FindViewById<TextView>(Resource.Id.clienteTextView);
+            Estatus = itemView.FindViewById<TextView>(Resource.Id.estadoTextView);
+            Fecha = itemView.FindViewById<TextView>(Resource.Id.entregarTextView);
         }
     }
     public class FootViewHolder : RecyclerView.ViewHolder

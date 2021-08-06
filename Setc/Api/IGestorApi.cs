@@ -1,5 +1,5 @@
-﻿using Setc.Models;
-using Refit;
+﻿using Refit;
+using Setc.Models;
 using System.Threading.Tasks;
 
 namespace Setc.Api

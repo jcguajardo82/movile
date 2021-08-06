@@ -2,7 +2,9 @@
 using Setc.Helpers;
 using Setc.Models;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Setc.Api
@@ -35,7 +37,7 @@ namespace Setc.Api
             try
             {
                 ordenes = await setcApi.GetOrders(usuario, pagina);
-                return ordenes;
+                return ordenes.OrderBy(o=>o.deliveryDate).ToList();
             }
             catch
             {
@@ -62,7 +64,30 @@ namespace Setc.Api
 
         public async Task<string> SendCuestionario(List<RespuestaModel> respuestas)
         {
-            var response = await setcApi.SendCuestionario(respuestas);
+            string response;
+            try
+            {
+                response = await setcApi.SendCuestionario(respuestas);
+            }
+            catch (HttpRequestException e)
+            {
+                response = e.Message;
+            }
+            return response;
+        }
+
+        public async Task<string> SendRecepcion(RecepcionModel recepcion)
+        {
+            string response;
+            try
+            {
+                string detalle = JsonSerializer.Serialize(recepcion);
+                response = await setcApi.SendRecepcion(recepcion);
+            }
+            catch (HttpRequestException e)
+            {
+                response = e.Message;
+            }
             return response;
         }
     }

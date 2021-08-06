@@ -3,6 +3,7 @@ using Android.Views;
 using Android.Widget;
 using Setc.Models;
 using System.Collections.Generic;
+using Android.Graphics;
 
 namespace Setc.Adapters
 {
@@ -32,12 +33,21 @@ namespace Setc.Adapters
                     .Inflate(Resource.Layout.producto_layout, null);
             }
 
-            convertView.FindViewById<TextView>(Resource.Id.productoTextView).Text =
-                item.productName;
-
-            convertView.FindViewById<TextView>(Resource.Id.cantidadTextView).Text =
-                $"Cantidad: {item.quantity} {item.unitMeasure}";
-
+            convertView.FindViewById<TextView>(Resource.Id.productoTextView).Text = item.ProductNameToTitleCase();
+            convertView.FindViewById<TextView>(Resource.Id.surtidoTextView).Text = item.Surtido();
+            convertView.FindViewById<TextView>(Resource.Id.cantidadTextView).Text = $"Cantidad: {item.quantity} {item.unitMeasure}";
+            Color color = Color.Black;
+            switch (item.surtido)
+            {
+                case 0:
+                    color = Color.DarkRed;
+                    break;
+                case 1:
+                    color = Color.DarkGreen;
+                    break;
+               
+            }
+            convertView.FindViewById<TextView>(Resource.Id.surtidoTextView).SetTextColor(color);
 
             return convertView;
         }

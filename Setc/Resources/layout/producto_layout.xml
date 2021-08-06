@@ -16,12 +16,27 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/productoTextView" />
-    <TextView
-        android:paddingTop="5dp"
-        android:textAppearance="?android:attr/textAppearanceListItemSecondary"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="left"
-        android:id="@+id/cantidadTextView"
-        android:textStyle="bold" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+        <TextView
+            android:paddingTop="5dp"
+            android:textAppearance="?android:attr/textAppearanceListItemSecondary"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:id="@+id/surtidoTextView"
+            android:textStyle="bold" />
+          <TextView
+            android:paddingTop="5dp"
+            android:textAppearance="?android:attr/textAppearanceListItemSecondary"
+            android:layout_width="wrap_content"
+          android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:id="@+id/cantidadTextView"
+            android:textStyle="bold" />
+    </LinearLayout>
 </LinearLayout>

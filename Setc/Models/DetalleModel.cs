@@ -1,4 +1,6 @@
-﻿namespace Setc.Models
+﻿using System.Globalization;
+
+namespace Setc.Models
 {
     public class DetalleModel
     {
@@ -14,5 +16,24 @@
         public string unitMeasure { get; set; }
         public double priceOrigin { get; set; }
         public double assignedWeight { get; set; }
+        public int surtido { get; set; }
+        public string ProductNameToTitleCase()
+        {
+            return (CultureInfo.InvariantCulture.TextInfo.ToTitleCase(productName.ToLower()));
+        }
+        public string Surtido()
+        {
+            string surtudoVal = string.Empty;
+            switch (surtido)
+            {
+                case 0:
+                    surtudoVal = "No Surtido";
+                    break;
+                case 1:
+                    surtudoVal = "Surtido";
+                    break;
+            }
+            return surtudoVal;
+        }
     }
 }

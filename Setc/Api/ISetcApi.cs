@@ -1,15 +1,6 @@
-﻿using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
-using Refit;
+﻿using Refit;
 using Setc.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Setc.Api
@@ -27,5 +18,8 @@ namespace Setc.Api
 
         [Post("/api/SendCuestionario")]
         Task<string> SendCuestionario([Body] List<RespuestaModel> respuestas);
+
+        [Post("/api/SendRecepcion")]
+        Task<string> SendRecepcion([Body] RecepcionModel recepcion);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace Setc.Models
 {
@@ -56,5 +57,24 @@ namespace Setc.Models
         public string cancelCause { get; set; }
         public string consignmentType { get; set; }
         public List<DetalleModel> detalle { get; set; }
+
+        public string CustomerNameToTitleCase()
+        {
+            return (CultureInfo.InvariantCulture.TextInfo.ToTitleCase(customerName.ToLower()));
+        }
+        public int Status()
+        {
+            int status = 0;
+            var toDay = DateTime.Now;
+            var onTime = deliveryDate.Subtract(toDay).TotalMinutes;
+            if (onTime > 15)
+                status = 0;
+            else if (onTime < 15 && onTime > 0)
+                status = 1;
+            else if (onTime < 0)
+                status = 2;
+
+            return status;
+        }
     }
 }

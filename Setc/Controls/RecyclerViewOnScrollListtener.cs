@@ -1,16 +1,6 @@
-﻿using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
-using AndroidX.RecyclerView.Widget;
+﻿using AndroidX.RecyclerView.Widget;
 using AndroidX.SwipeRefreshLayout.Widget;
 using Setc.Adapters;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Setc.Controls
 {
@@ -33,24 +23,19 @@ namespace Setc.Controls
             _IsLoadingMore = IsLoadingMore;
         }
 
-        // Triggered when the sliding state of RecyclerView changes
-        //There are 3 kinds of sliding states, 0: ScrollStateIdle finger leaves the screen 1ScrollStateDragging: finger touches the screen 2ScrollStateSetting
         public override void OnScrollStateChanged(RecyclerView recyclerView, int newState)
         {
             base.OnScrollStateChanged(recyclerView, newState);
-            System.Diagnostics.Debug.Write("test", "newState:" + newState);
         }
 
         // Triggered when RecyclerView is active
         public override void OnScrolled(RecyclerView recyclerView, int dx, int dy)
         {
             base.OnScrolled(recyclerView, dx, dy);
-            System.Diagnostics.Debug.Write("Sliding");
             int lastVisibleItemPosition = _linearLayoutManager.FindLastVisibleItemPosition();
 
             if (lastVisibleItemPosition + 1 == _adapter.ItemCount)
             {
-                System.Diagnostics.Debug.Write("test", "loadding has been completed");
                 bool isRefreshing = _swipeRefreshLayout.Refreshing;
                 if (isRefreshing)
                 {
@@ -63,9 +48,8 @@ namespace Setc.Controls
                     handler.PostDelayed(() =>
                     {
                         _InsertDataEvent();
-                        System.Diagnostics.Debug.Write("test", "Loading more has been completed");
                         _IsLoadingMore = false;
-                    }, 3000);
+                    }, 2000);
                 }
             }
         }

@@ -6,14 +6,14 @@ using Android.Text;
 using Android.Views;
 using Android.Widget;
 using AndroidX.AppCompat.App;
+using Google.Android.Material.TextField;
 using Setc.Api;
+using Setc.Controls;
 using Setc.Helpers;
 using Setc.Models;
-using Google.Android.Material.TextField;
 using System;
 using Xamarin.Essentials;
 using static Android.Views.View;
-using Setc.Controls;
 
 namespace Setc
 {
@@ -34,7 +34,6 @@ namespace Setc
             base.OnCreate(savedInstanceState);
             Platform.Init(this, savedInstanceState);
             SetContentView(Resource.Layout.activity_main);
-
             MensajeUsuario = FindViewById<TextInputLayout>(Resource.Id.mensajeUsuario);
             Usuario = FindViewById<TextInputEditText>(Resource.Id.usuario);
             MensajePassword = FindViewById<TextInputLayout>(Resource.Id.mensajePassword);
@@ -124,8 +123,8 @@ namespace Setc
             {
                 Preferences.Set(Usuario.Text, "usuario");
                 Intent intent = new Intent(this, typeof(OrdenesActivity));
+                intent.PutExtra("usuario", Usuario.Text);
                 StartActivity(intent);
-
                 SetResult(Result.Ok, intent);
                 Finish();
             }

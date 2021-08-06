@@ -17,6 +17,9 @@ namespace Setc.Helpers
                     case "Password":
                         Mensaje = "Ingrese la contraseña.";
                         break;
+                    case "Recibe":
+                        Mensaje = "Ingrese quien recibe.";
+                        break;
                 }
             }
             return Mensaje;
