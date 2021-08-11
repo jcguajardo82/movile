@@ -17,7 +17,7 @@ using static Android.Views.View;
 
 namespace Setc
 {
-    [Activity(Label = "@string/app_name", Theme = "@style/AppTheme.NoActionBar", NoHistory = true)]
+    [Activity(Label = "@string/app_name", NoHistory = true)]
     public class MainActivity : AppCompatActivity
     {
         private readonly Apis api = new Apis();
@@ -34,7 +34,7 @@ namespace Setc
             base.OnCreate(savedInstanceState);
             Platform.Init(this, savedInstanceState);
             SetContentView(Resource.Layout.activity_main);
-            MensajeUsuario = FindViewById<TextInputLayout>(Resource.Id.mensajeUsuario);
+           MensajeUsuario = FindViewById<TextInputLayout>(Resource.Id.mensajeUsuario);
             Usuario = FindViewById<TextInputEditText>(Resource.Id.usuario);
             MensajePassword = FindViewById<TextInputLayout>(Resource.Id.mensajePassword);
             Password = FindViewById<TextInputEditText>(Resource.Id.password);

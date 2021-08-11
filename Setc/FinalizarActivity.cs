@@ -3,6 +3,7 @@ using Android.Content;
 using Android.OS;
 using Android.Text;
 using Android.Views;
+using Android.Views.InputMethods;
 using Android.Widget;
 using AndroidX.AppCompat.App;
 using Google.Android.Material.TextField;
@@ -49,6 +50,9 @@ namespace Setc
             Recibe = FindViewById<TextInputEditText>(Resource.Id.recibe);
             Cargando = FindViewById<ProgressBar>(Resource.Id.progressBar);
             var terminar = FindViewById<Button>(Resource.Id.btnFinalizar);
+
+            SupportActionBar.SetDisplayHomeAsUpEnabled(true);
+
             _ = Preguntas();
 
             Recibe.FocusChange += FocusChanged;
@@ -80,6 +84,9 @@ namespace Setc
                 {
                     var resp = new RecepcionModel
                     {
+                        NoOrder = data.orderNo.ToString(),
+                        UeNo = data.ueNo,
+                        repartidor = usuario,
                         horaRecepcion = DateTime.Now,
                         nombre = Recibe.Text,
                         ubicacion = new UbicacionModel
@@ -92,10 +99,10 @@ namespace Setc
                     Apis api = new Apis();
                     await api.SendRecepcion(resp);
                     await api.SendCuestionario(respuestas);
-                    await api.ChangeEstatusOrder(data.orderNo, "FINALIZADA", 10);
+                    await api.ChangeEstatusOrder(data.orderNo, "FINALIZADA", 6);
                     Cargando.Visibility = ViewStates.Invisible;
                     Intent intent = new Intent(this, typeof(OrdenesActivity));
-                    intent.PutExtra("usuario", usuario);                   
+                    intent.PutExtra("usuario", usuario);
                     StartActivity(intent);
                 }
                 Cargando.Visibility = ViewStates.Invisible;
@@ -112,6 +119,11 @@ namespace Setc
             }
         }
 
+        public override bool OnOptionsItemSelected(IMenuItem item)
+        {
+            Finish();
+            return base.OnOptionsItemSelected(item);
+        }
         private void TextChanged(object sender, TextChangedEventArgs e)
         {
             ValidarRecibe();
@@ -154,10 +166,14 @@ namespace Setc
                 spinner.ItemSelected += Spinner_ItemSelected;
                 preguntas.AddView(spinner);
             }
-
         }
+
         private void Spinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
         {
+
+            var manager = GetSystemService(Context.InputMethodService) as InputMethodManager;
+            manager.HideSoftInputFromWindow(Recibe.WindowToken, 0);
+
             var selected = (Spinner)sender;
             var id = selected.Id;
             var respuesta = selected.SelectedItem.ToString();

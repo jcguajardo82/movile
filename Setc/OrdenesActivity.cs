@@ -1,6 +1,7 @@
 ﻿using Android.App;
 using Android.Content;
 using Android.OS;
+using Android.Views;
 using Android.Widget;
 using AndroidX.AppCompat.App;
 using AndroidX.RecyclerView.Widget;
@@ -15,7 +16,7 @@ using Xamarin.Essentials;
 
 namespace Setc
 {
-    [Activity(Label = "Mis Ordenes")]
+    [Activity(Label = "Mis Órdenes")]
     public class OrdenesActivity : AppCompatActivity
     {
         private readonly Apis api = new Apis();
@@ -63,7 +64,7 @@ namespace Setc
                 string detalle = JsonSerializer.Serialize(data[position]);
                 intent.PutExtra("detalle", detalle);
                 intent.PutExtra("usuario", usuario);
-                StartActivityForResult(intent,100);
+                StartActivityForResult(intent, 100);
             };
             LinearLayoutManager linearLayoutManager = (LinearLayoutManager)recyclerView.GetLayoutManager();
             RecyclerView.OnScrollListener scroll = new RecyclerViewOnScrollListtener(refresh, handler, linearLayoutManager, adapter, AddData, IsLoadingMore);
@@ -77,6 +78,23 @@ namespace Setc
                 GetOrdenes();
             }
 
+        }
+        public override bool OnCreateOptionsMenu(IMenu menu)
+        {
+            MenuInflater.Inflate(Resource.Menu.menu_main, menu);
+            return base.OnCreateOptionsMenu(menu);
+        }
+        public override bool OnOptionsItemSelected(IMenuItem item)
+        {
+            if (item.ItemId == Resource.Id.action_close)
+            {
+                Intent intent = new Intent(this, typeof(MainActivity));
+                FinishAfterTransition();
+                StartActivity(intent);
+            }
+
+
+            return base.OnOptionsItemSelected(item);
         }
         protected override void OnSaveInstanceState(Bundle outState)
         {

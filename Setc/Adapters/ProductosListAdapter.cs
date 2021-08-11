@@ -4,6 +4,7 @@ using Android.Widget;
 using Setc.Models;
 using System.Collections.Generic;
 using Android.Graphics;
+using Android.Content.Res;
 
 namespace Setc.Adapters
 {
@@ -40,10 +41,10 @@ namespace Setc.Adapters
             switch (item.surtido)
             {
                 case 0:
-                    color = Color.DarkRed;
+                    color = parent.Resources.GetColor(Resource.Color.colorPrimary);
                     break;
                 case 1:
-                    color = Color.DarkGreen;
+                    color = parent.Resources.GetColor(Resource.Color.colorVerde);
                     break;
                
             }

@@ -12,6 +12,7 @@
         android:clipChildren="false"
         android:clipToPadding="false"
         android:orientation="vertical"
+            app:layout_anchorGravity="fill"
         android:padding="24dp"
         android:paddingTop="16dp">
 
@@ -26,7 +27,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"            
+            android:layout_height="wrap_content"
             app:startIconDrawable="@drawable/user"
             android:hint="@string/loginEditUsuario"
             android:id="@+id/mensajeUsuario"
@@ -69,5 +70,18 @@
             android:layout_height="wrap_content"
             android:visibility="invisible"
             android:id="@+id/progressBar" />
+        <TextView
+            android:id="@+id/textViewVersion"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="bottom"
+            android:gravity="center|center_horizontal"
+             android:layout_marginBottom="30dp"
+             app:layout_anchorGravity="fill"
+            android:textColor="@color/colorPressed"
+            android:textAppearance="?android:attr/textAppearanceListItemSmall"
+            android:text="@string/version" />
     </LinearLayout>
+
 </ScrollView>

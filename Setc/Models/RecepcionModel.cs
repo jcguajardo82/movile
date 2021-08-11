@@ -13,6 +13,9 @@ namespace Setc.Models
 {
     public class RecepcionModel
     {
+        public string NoOrder { get; set; }
+        public string UeNo { get; set; }
+        public string repartidor { get; set; }
         public string nombre { get; set; }
         public DateTime horaRecepcion { get; set; }
         public UbicacionModel ubicacion { get; set; }
