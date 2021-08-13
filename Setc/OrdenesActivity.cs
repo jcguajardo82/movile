@@ -88,9 +88,25 @@ namespace Setc
         {
             if (item.ItemId == Resource.Id.action_close)
             {
-                Intent intent = new Intent(this, typeof(MainActivity));
-                FinishAfterTransition();
-                StartActivity(intent);
+               AndroidX.AppCompat.App.AlertDialog.Builder alert = new AndroidX.AppCompat.App.AlertDialog.Builder(this);
+                alert.SetTitle("Atención");
+                alert.SetMessage("¿Desea cerrar su sesión?");
+
+                alert.SetPositiveButton("Aceptar", async (senderAlert, args) =>
+                {
+                    Intent intent = new Intent(this, typeof(MainActivity));
+                    FinishAfterTransition();
+                    StartActivity(intent);
+                });
+
+                alert.SetNegativeButton("Cancelar", (senderAlert, args) =>
+                {
+
+                });
+
+                Dialog dialog = alert.Create();
+                dialog.Show();
+                
             }
 
 

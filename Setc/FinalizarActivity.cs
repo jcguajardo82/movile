@@ -57,7 +57,7 @@ namespace Setc
 
             Recibe.FocusChange += FocusChanged;
             Recibe.TextChanged += TextChanged;
-
+            
             terminar.Click += async (sender, e) =>
             {
 
@@ -118,7 +118,7 @@ namespace Setc
                 internet = false;
             }
         }
-
+       
         public override bool OnOptionsItemSelected(IMenuItem item)
         {
             Finish();
@@ -164,17 +164,23 @@ namespace Setc
                 spinner.Adapter = adaptador;
                 spinner.Id = item.id;
                 spinner.ItemSelected += Spinner_ItemSelected;
+                spinner.Touch += Spinner_Touch;
                 preguntas.AddView(spinner);
             }
         }
 
-        private void Spinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
+        private void Spinner_Touch(object sender, View.TouchEventArgs e)
         {
-
+            
             var manager = GetSystemService(Context.InputMethodService) as InputMethodManager;
             manager.HideSoftInputFromWindow(Recibe.WindowToken, 0);
+            var open = (Spinner)sender;
+            open.PerformClick();
+        }
 
-            var selected = (Spinner)sender;
+        private void Spinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
+        {
+              var selected = (Spinner)sender;
             var id = selected.Id;
             var respuesta = selected.SelectedItem.ToString();
             if (!string.IsNullOrWhiteSpace(respuesta))

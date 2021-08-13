@@ -47,12 +47,12 @@ namespace Setc.Adapters
                 OrdenModel ordenItem = data[position];
                 orden.NoOrden.Text = ordenItem.orderNo.ToString();
                 orden.Cliente.Text = ordenItem.CustomerNameToTitleCase();               
-                orden.Fecha.Text = $"Entregar el {ordenItem.deliveryDate}";
+                orden.Fecha.Text = $"Entregar el {ordenItem.deliveryDate.ToString("dd/MM/yyyy HH:mm:ss tt")}";
                 Color color = Color.Black;
                 switch (ordenItem.Status())
                 {
                     case 0:
-                        color = Color.DarkGreen;
+                        color = _context.ApplicationContext.Resources.GetColor(Resource.Color.colorVerde);
                         orden.Estatus.Text = "EN TIEMPO";
                         orden.Estatus.SetTextColor(color);
                         break;
@@ -62,7 +62,7 @@ namespace Setc.Adapters
                         orden.Estatus.SetTextColor(color);
                         break;
                     case 2:
-                        color = Color.DarkRed;
+                        color = _context.ApplicationContext.Resources.GetColor(Resource.Color.colorPrimary);
                         orden.Estatus.Text = "RETRASADO";
                         orden.Estatus.SetTextColor(color);
                         break;
