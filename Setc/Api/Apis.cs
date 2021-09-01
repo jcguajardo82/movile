@@ -1,6 +1,8 @@
-﻿using Refit;
+﻿using Microsoft.AppCenter.Crashes;
+using Refit;
 using Setc.Helpers;
 using Setc.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -27,8 +29,20 @@ namespace Setc.Api
 
         public async Task<List<CuestionarioModel>> GetCuestionario(string usuario)
         {
-            var response = await setcApi.GetCuestionario(usuario);
-            return response;
+            var response = new List<CuestionarioModel>();
+            try
+            {
+                response = await setcApi.GetCuestionario(usuario);
+                return response;
+            }
+            catch (Exception exception)
+            {
+                var properties = new Dictionary<string, string> {
+                        { "Api", "GetCuestionario" },
+                    };
+                Crashes.TrackError(exception, properties);
+                return response;
+            }
         }
 
         public async Task<List<OrdenModel>> GetOrders(string usuario, int pagina)
@@ -37,14 +51,18 @@ namespace Setc.Api
             try
             {
                 ordenes = await setcApi.GetOrders(usuario, pagina);
-                return ordenes.OrderBy(o=>o.deliveryDate).ToList();
+                return ordenes.OrderBy(o => o.deliveryDate).ToList();
+
             }
-            catch
+            catch (Exception exception)
             {
+                var properties = new Dictionary<string, string> {
+                        { "Api", "GetOrders" },
+                    };
+                Crashes.TrackError(exception, properties);
                 return ordenes;
             }
         }
-
         public async Task<string> Login(LoginModel userLogin)
         {
             string exito;
@@ -55,9 +73,13 @@ namespace Setc.Api
                 userLogin.Pass = password;
                 exito = await gestorAPI.ActiveDirectoryApi(userLogin);
             }
-            catch (HttpRequestException e)
+            catch (HttpRequestException exception)
             {
-                exito = e.Message;
+                var properties = new Dictionary<string, string> {
+                        { "Api", "Login" },
+                    };
+                Crashes.TrackError(exception, properties);
+                exito = exception.Message;
             }
             return exito;
         }
@@ -71,6 +93,10 @@ namespace Setc.Api
             }
             catch (HttpRequestException e)
             {
+                var properties = new Dictionary<string, string> {
+                        { "Api", "SendCuestionario" },
+                    };
+                Crashes.TrackError(e, properties);
                 response = e.Message;
             }
             return response;
@@ -86,6 +112,10 @@ namespace Setc.Api
             }
             catch (HttpRequestException e)
             {
+                var properties = new Dictionary<string, string> {
+                        { "Api", "SendRecepcion" },
+                    };
+                Crashes.TrackError(e, properties);
                 response = e.Message;
             }
             return response;

@@ -6,6 +6,7 @@ using Android.Widget;
 using AndroidX.AppCompat.App;
 using AndroidX.RecyclerView.Widget;
 using AndroidX.SwipeRefreshLayout.Widget;
+using Microsoft.AppCenter.Analytics;
 using Setc.Adapters;
 using Setc.Api;
 using Setc.Controls;
@@ -139,6 +140,7 @@ namespace Setc
         {
             if (internet == false)
             {
+                Analytics.TrackEvent("Sin Internet");
                 SnackbarMaker.Make("No tiene acceso a Internet", recyclerView);
                 return;
             }

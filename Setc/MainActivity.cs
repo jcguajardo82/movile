@@ -14,6 +14,9 @@ using Setc.Models;
 using System;
 using Xamarin.Essentials;
 using static Android.Views.View;
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
 
 namespace Setc
 {
@@ -56,6 +59,8 @@ namespace Setc
             {
                 internet = false;
             }
+
+            AppCenter.Start("f3a7ebef-4b4f-4f92-9dd3-9dc066f6b5c3",typeof(Analytics), typeof(Crashes));
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
@@ -93,6 +98,7 @@ namespace Setc
         {
             if (internet == false)
             {
+                Analytics.TrackEvent("Sin Internet");
                 SnackbarMaker.Make("No tiene acceso a Internet", Login);
                 return;
             }
@@ -150,6 +156,7 @@ namespace Setc
             }
             else
             {
+                Analytics.TrackEvent("Sin Internet");
                 internet = false;
                 SnackbarMaker.Make("No tiene acceso a Internet", Login);
             }
