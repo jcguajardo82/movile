@@ -60,7 +60,7 @@ namespace Setc
                 internet = false;
             }
 
-            AppCenter.Start("f3a7ebef-4b4f-4f92-9dd3-9dc066f6b5c3",typeof(Analytics), typeof(Crashes));
+            AppCenter.Start("f3a7ebef-4b4f-4f92-9dd3-9dc066f6b5c3",typeof(Analytics), typeof(Crashes)); 
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
